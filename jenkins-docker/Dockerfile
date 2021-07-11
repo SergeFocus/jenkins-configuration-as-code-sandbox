@@ -8,7 +8,6 @@ ENV JAVA_OPTS=-Djenkins.install.runSetupWizard=false
 
 RUN install-plugins.sh \
   configuration-as-code \
-  configuration-as-code-support \
   blueocean \
   job-dsl \
   cloudbees-folder \
@@ -17,3 +16,7 @@ RUN install-plugins.sh \
   generic-webhook-trigger \
   git-changelog \
   violation-comments-to-gitlab
+
+COPY ./jenkins-wrapper.sh /usr/local/bin/jenkins-wrapper.sh
+
+ENTRYPOINT ["/sbin/tini", "--", "/usr/local/bin/jenkins-wrapper.sh"]
